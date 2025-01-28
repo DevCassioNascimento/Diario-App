@@ -24,6 +24,7 @@ def escrever(request):
            titulo=titulo,
            texto=texto
        )
+       diario.set_tag (tags)
        diario.save()
        
        for i in pessoa:
