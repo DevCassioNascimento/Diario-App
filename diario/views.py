@@ -5,7 +5,8 @@ from .models import Pessoa, Diario
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    textos = Diario.objects.all().order_by('created_at') [:3]
+    return render(request, 'home.html', {'texto': textos} )
 
 def escrever(request):
     if request.method == 'GET':
@@ -27,7 +28,7 @@ def escrever(request):
        diario.set_tag (tags)
        diario.save()
        
-       for i in pessoa:
+       for i in pessoas:
            pessoa = Pessoa.objects.get(id=i)
            diario.pessoa.add(pessoa)
            diario.save()
