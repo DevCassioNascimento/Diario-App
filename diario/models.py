@@ -4,7 +4,7 @@ from django.db import models
 
 class Pessoa(models.Model):
     nome = models.CharField(max_length=100)
-    fotos = models.ImageField(upload_to='foto')
+    foto = models.ImageField(upload_to='fotos/', null=True, blank=True)
 
     def __str__(self):
         return self.nome

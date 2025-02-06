@@ -65,18 +65,20 @@
 <div class="grid grid-cols-1 md:grid-cols-3 mt-6 gap-4">
 
    {% for texto in textos %}
-      <div class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15">
-            <img class="h-40 w-full" src="{% static 'waves.png' %}" alt="">
-            <div class="p-10">
-            <div>  
-               <span class="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset ring-indigo-400/30">Viagem</span>  
-            </div>
-
-            <p class="mt-2 text-lg font-medium tracking-tight text-white">Viagem para holanda</p>
-            <p class="mt-2 max-w-lg text-sm/6 text-gray-400">Viajamos para holanda e visitamos de bicicleta ...</p>
-            </div>
-      </div>
-   {% endfor %}
+   <div class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 {% if forloop.counter == 1 %}lg:rounded-tl-[2rem]{% elif forloop.counter == 3 %}lg:rounded-tr-[2rem] {% endif %}">
+       <img class="h-40 w-full" src="{% static 'waves.png' %}" alt="">
+       <div class="p-10">
+       <div>
+           {% for i in texto.get_tags %}
+               <span class="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset ring-indigo-400/30">{{i}}</span>
+           {% endfor %}
+       </div>
+           
+       <p class="mt-2 text-lg font-medium tracking-tight text-white">{{texto.titulo}}</p>
+       <p class="mt-2 max-w-lg text-sm/6 text-gray-400">{{texto.texto|truncatewords:20}}</p>
+       </div>
+   </div>
+ {% endfor %}
 
 </div>
 <br>
@@ -97,4 +99,22 @@
 </div>
 </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{nomes|safe}},
+      datasets: [{
+        data: {{qtds|safe}},
+        borderWidth: 1
+      }]
+    },
+    
+  });
+</script>
+  
 {% endblock 'body' %}
